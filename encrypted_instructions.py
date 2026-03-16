@@ -1,17 +1,19 @@
-# 158603199
-
 import sys
-from typing import List
+import string
 
 
-def decode_string(s: str) -> str:
-    stack: List[tuple[List[str], int]] = []
-    current_str: List[str] = []
+DIGITS = set(string.digits)
+BASE_10 = 10
+
+
+def decode_string(s: str) -> list[str]:
+    stack: list[tuple[list[str], int]] = []
+    current_str: list[str] = []
     current_num: int = 0
 
     for ch in s:
-        if ch.isdigit():
-            current_num = current_num * 10 + int(ch)
+        if ch in DIGITS:
+            current_num = current_num * BASE_10 + int(ch)
         elif ch == '[':
             stack.append((current_str, current_num))
             current_str = []
@@ -23,13 +25,14 @@ def decode_string(s: str) -> str:
         else:
             current_str.append(ch)
 
-    return ''.join(current_str)
+    return current_str
 
 
 def main() -> None:
     s = sys.stdin.readline().strip()
-    print(decode_string(s))
+    decoded_list = decode_string(s)
+    print(*decoded_list, sep='')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
